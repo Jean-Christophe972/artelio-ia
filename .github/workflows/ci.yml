@@ -74,13 +74,10 @@ jobs:
           curl -sf -X POST localhost:8000/v1/qualifier -H "X-API-Key: $CLE" -H 'Content-Type: application/json' \
                -d '{"texte":"Fuite d eau sous l evier, ça coule partout"}' | tee /tmp/reponse.json
           grep -q '"metier":"plomberie"' /tmp/reponse.json
-      - name: Analyse de vulnérabilités (Trivy)
-        uses: aquasecurity/trivy-action@0.28.0
-        with:
-          image-ref: ${{ env.IMAGE }}:${{ github.sha }}
-          severity: CRITICAL
-          ignore-unfixed: true
-          exit-code: "1"
+      - name: Analyse de vulnérabilités (Trivy, failles critiques corrigeables)
+        run: |
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:0.72.0 \
+            image --severity CRITICAL --ignore-unfixed --exit-code 1 --no-progress $IMAGE:${{ github.sha }}
       - name: Publication (main uniquement)
         if: github.ref == 'refs/heads/main'
         run: |
