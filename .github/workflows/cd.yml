@@ -15,13 +15,14 @@ jobs:
     if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     environment: production
+    # Au niveau du job : les conditions "if" des étapes ne voient pas l'env défini sur l'étape elle-même
+    env:
+      RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
     steps:
       - uses: actions/checkout@v4
         with: { ref: "${{ github.event.workflow_run.head_sha }}" }
-      - name: Déployer
+      - name: Déployer (si un jeton Railway est configuré ; sinon l'intégration GitHub de Railway déploie)
         if: env.RAILWAY_TOKEN != ''
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
           npm install -g @railway/cli@4
           railway up --service artelio-api --ci
