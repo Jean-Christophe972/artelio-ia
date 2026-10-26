@@ -11,8 +11,6 @@ permissions:
   contents: read
   packages: write
 
-env:
-  IMAGE: ghcr.io/${{ github.repository_owner }}/artelio-api
 
 jobs:
   qualite-code:
@@ -64,6 +62,8 @@ jobs:
     needs: barriere-modele
     steps:
       - uses: actions/checkout@v4
+      - name: Nom de l'image (Docker exige des minuscules ; le compte GitHub en contient)
+        run: echo "IMAGE=ghcr.io/$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')/artelio-api" >> "$GITHUB_ENV"
       - name: Construction
         run: docker build -t $IMAGE:${{ github.sha }} .
       - name: Test de fumée (l'image démarre et qualifie une demande)
