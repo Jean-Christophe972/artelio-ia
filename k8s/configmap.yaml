@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: artelio-api
+  labels: { app: artelio-api }
+data:
+  MODELE_SOURCE: registre
+  MLFLOW_TRACKING_URI: http://mlflow.artelio.svc:5000
+  PG_HOST: pg-primary.artelio.svc
+  PG_DATABASE: artelio
+  PG_USER: ml_service

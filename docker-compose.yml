@@ -1,0 +1,94 @@
+# Service IA d'Artelio (bloc 4), branché sur la plateforme du bloc 2.
+#   ./scripts/configure_env.sh            # secrets de la plateforme → .env
+#   docker compose up -d mlflow           # registre de modèles
+#   docker compose run --rm entrainement  # premier entraînement (devient « champion »)
+#   docker compose up -d                  # API, qualification, surveillance et réentraînement
+name: artelio-ia
+
+x-ml-env: &ml-env
+  PG_HOST: pg-primary
+  PG_DATABASE: artelio
+  PG_USER: ml_service
+  PG_PASSWORD: ${PG_ML_PASSWORD:?lancer scripts/configure_env.sh}
+  S3_ENDPOINT: http://object-storage:8333
+  S3_ACCESS_KEY: ${S3_ML_ACCESS}
+  S3_SECRET_KEY: ${S3_ML_SECRET}
+  MLFLOW_TRACKING_URI: http://mlflow:5000
+  PUSHGATEWAY: pushgateway:9091
+
+services:
+  # --- Registre de modèles et suivi des expériences -----------------------------
+  mlflow:
+    image: artelio-ml:1.0.0
+    build: { context: ., dockerfile: docker/ml/Dockerfile }
+    command: >
+      mlflow server --host 0.0.0.0 --port 5000 --workers 1
+      --backend-store-uri sqlite:////mlflow/mlflow.db
+      --artifacts-destination s3://mlflow/artefacts --serve-artifacts
+    environment:
+      MLFLOW_S3_ENDPOINT_URL: http://object-storage:8333
+      AWS_ACCESS_KEY_ID: ${S3_ML_ACCESS}
+      AWS_SECRET_ACCESS_KEY: ${S3_ML_SECRET}
+      AWS_DEFAULT_REGION: eu-west-3
+    user: "0:0"   # écrit la base SQLite dans le volume
+    volumes: [mlflow-db:/mlflow]
+    ports: ["127.0.0.1:15000:5000"]
+    networks: [backend, edge]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/health', timeout=3)"]
+      interval: 15s
+      retries: 10
+
+  # --- Entraînement à la demande (profil "outils") --------------------------------
+  entrainement:
+    image: artelio-ml:1.0.0
+    command: ["python", "-m", "artelio_ia.entrainement", "--exporter"]
+    environment: *ml-env
+    volumes: ["./models:/app/models"]
+    networks: [backend]
+    profiles: ["outils"]
+    depends_on: { mlflow: { condition: service_healthy } }
+
+  # --- API de qualification ------------------------------------------------------
+  api:
+    image: artelio-api:1.0.0
+    build: { context: ., dockerfile: Dockerfile }
+    environment:
+      <<: *ml-env
+      MODELE_SOURCE: registre          # charge l'alias « champion » et suit ses changements
+      API_KEY_SHA256: ${API_KEY_SHA256}
+    ports: ["127.0.0.1:18000:8000"]
+    networks:
+      backend: { aliases: [artelio-api] }   # nom découvert par Prometheus
+      edge: {}
+    restart: unless-stopped
+    depends_on: { mlflow: { condition: service_healthy } }
+
+  # --- Qualification automatique des nouvelles demandes ---------------------------
+  qualification:
+    image: artelio-ml:1.0.0
+    command: ["python", "-m", "artelio_ia.qualification"]
+    environment:
+      <<: *ml-env
+      API_URL: http://artelio-api:8000
+      API_KEY: ${API_KEY}
+    networks: [backend]
+    restart: unless-stopped
+    depends_on: [api]
+
+  # --- Surveillance de la dérive (horaire) et réentraînement automatique -----------
+  planificateur:
+    image: artelio-ml:1.0.0
+    command: ["python", "retrain/planificateur.py"]
+    environment: *ml-env
+    networks: [backend]
+    restart: unless-stopped
+    depends_on: { mlflow: { condition: service_healthy } }
+
+networks:
+  backend: { name: artelio-backend, external: true }
+  edge: { name: artelio-edge, external: true }
+
+volumes:
+  mlflow-db:

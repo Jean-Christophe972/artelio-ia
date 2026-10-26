@@ -1,0 +1,89 @@
+# Intégration continue : qualité du code, tests, barrière de qualité du modèle, image Docker.
+# Chaque push et chaque pull request ; l'image n'est publiée que depuis main.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  IMAGE: ghcr.io/${{ github.repository_owner }}/artelio-api
+
+jobs:
+  qualite-code:
+    name: Analyse statique
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install ruff==0.13.0
+      - run: ruff check . && ruff format --check .
+
+  tests:
+    name: Tests unitaires et API
+    runs-on: ubuntu-latest
+    needs: qualite-code
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip }
+      - name: Dépendances
+        run: |
+          pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements.txt -r requirements-dev.txt fastapi==0.115.12 && pip install --no-deps -e .
+      - name: Tests (hors barrière du champion)
+        run: pytest -q -m "not champion"
+
+  barriere-modele:
+    name: Barrière de qualité du modèle livré
+    runs-on: ubuntu-latest
+    needs: tests
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip }
+      - uses: actions/cache@v4
+        with: { path: ~/.cache/huggingface, key: plongements-minilm-v1 }
+      - name: Dépendances et modèle de plongements
+        run: |
+          pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements.txt -r requirements-dev.txt fastapi==0.115.12 && pip install --no-deps -e .
+          python scripts/telecharger_plongements.py
+      - name: Planchers, sous-estimation des urgences, robustesse (models/champion)
+        run: pytest -q -m champion
+
+  image:
+    name: Image Docker (construction, test de fumée, publication)
+    runs-on: ubuntu-latest
+    needs: barriere-modele
+    steps:
+      - uses: actions/checkout@v4
+      - name: Construction
+        run: docker build -t $IMAGE:${{ github.sha }} .
+      - name: Test de fumée (l'image démarre et qualifie une demande)
+        run: |
+          CLE=test-ci; EMPREINTE=$(printf '%s' "$CLE" | sha256sum | cut -d' ' -f1)
+          docker run -d --name api -p 8000:8000 -e API_KEY_SHA256=$EMPREINTE $IMAGE:${{ github.sha }}
+          for i in $(seq 1 60); do curl -sf localhost:8000/pret && break; sleep 2; done
+          curl -sf -X POST localhost:8000/v1/qualifier -H "X-API-Key: $CLE" -H 'Content-Type: application/json' \
+               -d '{"texte":"Fuite d eau sous l evier, ça coule partout"}' | tee /tmp/reponse.json
+          grep -q '"metier":"plomberie"' /tmp/reponse.json
+      - name: Analyse de vulnérabilités (Trivy)
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: ${{ env.IMAGE }}:${{ github.sha }}
+          severity: CRITICAL
+          ignore-unfixed: true
+          exit-code: "1"
+      - name: Publication (main uniquement)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          docker tag $IMAGE:${{ github.sha }} $IMAGE:latest
+          docker push $IMAGE:${{ github.sha }} && docker push $IMAGE:latest

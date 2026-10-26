@@ -1,0 +1,53 @@
+{
+  "nom": "artelio-qualifieur",
+  "entraine_le": "2026-10-26T20:34:11.075364+00:00",
+  "declencheur": "correctif_casse_hors_domaine",
+  "mode": "selection",
+  "version_donnees": "20261026T030007Z",
+  "sha256_donnees": "eab1e9be6fc0d3d9dc882fbfee987f4a0a2a5f702037aa77cb42f546bda9885e",
+  "n_train": 8592,
+  "n_enrichissement": 2760,
+  "modeles": {
+    "metier": "hybride_regression_logistique_C1.0",
+    "urgence": "hybride_regression_logistique_C4.0"
+  },
+  "seuils": {
+    "confiance_metier": 0.55,
+    "alerte_critique": 0.25
+  },
+  "metriques": {
+    "latence_ms": 237.03505135999876,
+    "test_temporel.metier.f1_macro": 1.0,
+    "test_temporel.metier.exactitude": 1.0,
+    "test_temporel.urgence.f1_macro": 0.9742775309367312,
+    "test_temporel.urgence.exactitude": 0.9844961240310077,
+    "test_temporel.metier.ece": 0.02127588861225413,
+    "test_temporel.urgence.rappel_critique": 1.0,
+    "test_temporel.urgence.sous_estimation_grave": 0.0,
+    "test_temporel.taux_revue_humaine": 0.015503875968992248,
+    "hors_gabarits.metier.f1_macro": 0.9081353442794636,
+    "hors_gabarits.metier.exactitude": 0.9090909090909091,
+    "hors_gabarits.urgence.f1_macro": 0.7215199155470977,
+    "hors_gabarits.urgence.exactitude": 0.7482517482517482,
+    "hors_gabarits.metier.ece": 0.08200905431879933,
+    "hors_gabarits.urgence.rappel_critique": 1.0,
+    "hors_gabarits.urgence.sous_estimation_grave": 0.0,
+    "hors_gabarits.taux_revue_humaine": 0.1958041958041958,
+    "test_final.metier.f1_macro": 0.7810279667422524,
+    "test_final.metier.exactitude": 0.7888888888888889,
+    "test_final.urgence.f1_macro": 0.6394045008354219,
+    "test_final.urgence.exactitude": 0.6666666666666666,
+    "test_final.metier.ece": 0.04810619579848862,
+    "test_final.urgence.rappel_critique": 0.7857142857142857,
+    "test_final.urgence.sous_estimation_grave": 0.011111111111111112,
+    "test_final.taux_revue_humaine": 0.37777777777777777,
+    "hors_gabarits.urgence_sans_garde_fous.exactitude": 0.7342657342657343,
+    "hors_gabarits.urgence_sans_garde_fous.f1_macro": 0.7022672333421401,
+    "hors_gabarits.urgence_sans_garde_fous.rappel_critique": 0.8888888888888888,
+    "hors_gabarits.urgence_sans_garde_fous.sous_estimation_grave": 0.0
+  },
+  "scikit_learn": "1.6.1",
+  "commit_git": "inconnu",
+  "graine": 42,
+  "sha256_artefact": "89db6b59452cc6dbe29e6d133cbd6019aeedc7662b335a56b8a9c6d5740250b2"
+}

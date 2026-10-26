@@ -1,0 +1,35 @@
+[project]
+name = "artelio-ia"
+version = "1.0.0"
+description = "Qualification des demandes Artelio par IA : métier et urgence (bloc 4)"
+requires-python = ">=3.12"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src", ".", "tests"]
+testpaths = ["tests"]
+markers = ["champion: barrière de qualité du modèle livré (nécessite le modèle de plongements)"]
+
+[tool.ruff]
+line-length = 140
+target-version = "py312"
+# Le notebook est GÉNÉRÉ par notebooks/construire_notebook.py (source versionnée et vérifiée)
+extend-exclude = ["*.ipynb"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B", "I", "N", "UP"]
+# N818 : exceptions aux noms métier en français ; N803/N806 : notations X (matrice) usuelles en ML
+ignore = ["N818", "N803", "N806"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["artelio_ia", "api"]
+
+[tool.ruff.lint.per-file-ignores]
+# Notebook d'analyse : code d'exploration compact (une instruction par ligne non imposée), pas du code de production
+"notebooks/*" = ["E501", "E402", "E701", "E702", "E741", "B007", "B023"]

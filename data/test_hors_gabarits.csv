@@ -1,0 +1,91 @@
+texte,metier,urgence,canal
+"Le robinet d'arrêt général ne ferme plus et le raccord du chauffe-bain pisse l'eau sur le parquet",plomberie,critique,telephone
+"ma voisine du 3e sonne, son plafond goutte sous ma salle de bain, je vois rien chez moi mais ça mouille chez elle",plomberie,critique,vocal
+"Grosse fuite sur la colonne d'eau dans le placard technique, ça ruisselle dans l'escalier",plomberie,critique,telephone
+"Mon WC broyeur ne broie plus et tout remonte dans la cuvette",plomberie,haute,app
+"Depuis ce matin plus rien ne s'écoule de l'évier ni du lave-vaisselle",plomberie,haute,web
+"L'eau ne coule plus qu'en filet à tous les robinets, impossible de se doucher",plomberie,haute,app
+"Petite fuite au raccord du compteur d'eau, je mets une bassine en dessous",plomberie,normale,app
+"le tuyau d'évacuation de la machine fait glouglou à chaque vidange",plomberie,normale,vocal
+"Robinet de la baignoire qui tourne dans le vide, il reste un peu ouvert",plomberie,normale,web
+"Je voudrais remplacer ma baignoire par une douche à l'italienne, devis svp",plomberie,faible,web
+"Poser un récupérateur d'eau de pluie raccordé au jardin",plomberie,faible,web
+"Installation d'un évier double bac dans la nouvelle cuisine en janvier",plomberie,faible,web
+"Le compteur Linky a disjoncté et une odeur de plastique fondu sort du tableau",electricite,critique,telephone
+"Un câble dans le mur de la cuisine chauffe et la peinture a noirci autour de la prise",electricite,critique,app
+"Il y a eu un flash et une petite fumée quand j'ai allumé la hotte",electricite,critique,telephone
+"Le disjoncteur général saute dès qu'on allume le chauffe-eau, on n'a plus d'électricité la moitié du temps",electricite,haute,app
+"Toute la partie nuit de l'appart est sans électricité depuis l'orage",electricite,haute,web
+"plus de courant à la cuisine le frigo est coupé depuis hier soir",electricite,haute,vocal
+"La sonnette ne fonctionne plus",electricite,normale,web
+"Les néons du garage mettent dix secondes à s'allumer",electricite,normale,web
+"Une prise de la salle de bain pend du mur, les vis ont lâché",electricite,normale,app
+"Mettre des prises USB dans les chambres des enfants",electricite,faible,web
+"Brancher la nouvelle hotte aspirante et la plaque induction",electricite,faible,app
+"Câbler un réseau ethernet dans toute la maison",electricite,faible,web
+"Mon fils de 3 ans s'est enfermé dans sa chambre et ne sait pas rouvrir le verrou",serrurerie,critique,telephone
+"En rentrant du travail ma porte était ouverte et la serrure démontée, on a été volés",serrurerie,critique,telephone
+"J'ai laissé mes clés dans l'appart et la porte s'est verrouillée derrière moi, je suis sur le palier",serrurerie,critique,vocal
+"Le pêne de la serrure reste coincé dehors, je ne peux plus fermer la porte d'entrée pour partir",serrurerie,haute,app
+"La clé du bas ne rentre plus dans la serrure de la porte principale, j'utilise l'autre entrée",serrurerie,haute,web
+"Notre badge Vigik ne fonctionne plus et le gardien est absent",serrurerie,haute,app
+"La clé tourne mais il faut s'y reprendre à trois fois",serrurerie,normale,web
+"Le cylindre de la porte de cave est rouillé",serrurerie,normale,web
+"La porte d'entrée claque mal et ne s'enclenche qu'en la poussant fort",serrurerie,normale,app
+"Remplacer le cylindre par un modèle haute sécurité avec carte de propriété",serrurerie,faible,web
+"Poser un cadenas et un verrou sur l'abri de jardin",serrurerie,faible,web
+"Faire un double des clés de ma porte blindée",serrurerie,faible,app
+"Ma grand-mère de 90 ans n'a plus du tout de chauffage et il fait 5 degrés dehors",chauffage,critique,telephone
+"Le détecteur CO bipe en continu dans la cuisine à côté de la chaudière murale",chauffage,critique,telephone
+"Je sens une forte odeur de gaz quand la chaudière démarre",chauffage,critique,telephone
+"Chaudière en panne, plus de chauffage ni d'eau chaude, on a deux enfants",chauffage,haute,app
+"Le ballon thermodynamique affiche une erreur et l'eau sort froide",chauffage,haute,web
+"radiateurs glacés dans toute la maison depuis la coupure de courant",chauffage,haute,vocal
+"La chaudière se met en sécurité une fois par semaine, il faut la réarmer",chauffage,normale,web
+"Le radiateur de la salle de bain fuit un peu au niveau de la vanne",chauffage,normale,app
+"Mon sèche-serviettes ne chauffe que la moitié du haut",chauffage,normale,web
+"Contrat d'entretien pour ma chaudière gaz, visite annuelle",chauffage,faible,web
+"Je veux remplacer mes convecteurs électriques par des radiateurs à inertie",chauffage,faible,web
+"Ramonage du conduit de la cheminée avant l'hiver",chauffage,faible,web
+"Le plafond de la cuisine noircit à cause de la vapeur, il faudrait une peinture adaptée",peinture,normale,app
+"Des cloques sont apparues sur la peinture de la chambre suite à une infiltration réparée",peinture,normale,web
+"Les murs de la salle de bain moisissent dans les angles",peinture,normale,app
+"Reprise des murs après une infiltration, le propriétaire veut que ce soit fait avant l'état des lieux de la semaine prochaine",peinture,normale,web
+"Repeindre la chambre en vert sauge et le plafond en blanc mat",peinture,faible,web
+"Poser du papier peint panoramique sur un mur du salon",peinture,faible,web
+"Peinture complète d'une maison de 90 m2 avant emménagement en mars",peinture,faible,web
+"je veux faire repeindre mes portes intérieures en noir",peinture,faible,vocal
+"Ravalement de la façade de mon pavillon",peinture,faible,web
+"Lasurer le bardage bois du garage",peinture,faible,web
+"Le vent a cassé la fenêtre de la chambre de mon fils, il y a du verre partout et il fait froid",menuiserie,haute,telephone
+"La porte-fenêtre du balcon ne se verrouille plus, on est au rez-de-chaussée",menuiserie,haute,app
+"Le garde-corps de la mezzanine s'est décroché",menuiserie,haute,app
+"La porte coulissante du dressing a déraillé",menuiserie,normale,web
+"Une lame de terrasse est pourrie et cède sous le pied",menuiserie,normale,web
+"Les fenêtres PVC laissent passer l'air, il y a du jour sous la huisserie",menuiserie,normale,app
+"La porte de la salle de bain racle le carrelage",menuiserie,normale,web
+"Fabrication d'un meuble sous l'escalier",menuiserie,faible,web
+"Remplacer les portes intérieures par des portes vitrées",menuiserie,faible,web
+"Poser un parquet flottant dans deux chambres",menuiserie,faible,web
+"Créer une verrière d'atelier entre cuisine et séjour",menuiserie,faible,web
+"Installer un plan de travail en bois dans la cuisine",menuiserie,faible,app
+"Mon père sort de l'hôpital vendredi, il faut une barre de maintien dans la douche avant",petits_travaux,normale,telephone
+"Le store banne ne se replie plus et il y a du vent annoncé",petits_travaux,normale,app
+"Fixer solidement la bibliothèque au mur, elle penche et mon enfant grimpe dessus",petits_travaux,normale,web
+"Monter un dressing PAX et deux lits superposés",petits_travaux,faible,web
+"Poser des patères et un porte-manteau dans l'entrée",petits_travaux,faible,app
+"Installer une boîte à clés sécurisée à l'entrée pour mes locations",petits_travaux,faible,web
+"Accrocher une grande toile de 1m50 au-dessus du canapé",petits_travaux,faible,app
+"Changer le silicone de l'évier qui noircit",petits_travaux,faible,web
+"Monter un portique de jeux dans le jardin",petits_travaux,faible,web
+"Fixer des rideaux occultants dans la chambre de bébé",petits_travaux,faible,app
+"Démonter des étagères et reboucher les trous avant de partir",petits_travaux,faible,web
+"Pose d'une rampe d'accès amovible pour le fauteuil de ma femme",petits_travaux,normale,telephone
+"slt dsl ds lavabo ça coule plus du tout bouché complet",plomberie,haute,app
+"wc qui fuit au pied de la cuvette, il y a une petite flaque à chaque fois",plomberie,normale,app
+"prise grillée ds la chambre ça sent le brulé",electricite,critique,app
+"je suis à la porte g perdu mes clés et ma fille de 8 ans attend dedans seule",serrurerie,critique,app
+"plus d'eau chaude depuis 3 jours stp vite",chauffage,haute,app
+"un carreau de la fenetre est fendu",menuiserie,normale,app
+"besoin de qqun pour monter 3 meubles",petits_travaux,faible,app
+"repeindre salon + couloir",peinture,faible,app

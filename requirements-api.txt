@@ -1,0 +1,13 @@
+# API de prédiction : image légère, sans les outils d'entraînement
+scikit-learn==1.6.1
+numpy==2.0.2
+scipy==1.18.1
+joblib==1.6.0
+sentence-transformers==3.4.1
+mlflow-skinny==2.22.1
+fastapi==0.115.12
+uvicorn[standard]==0.34.2
+pydantic==2.11.9
+boto3==1.40.30
+psycopg[binary]==3.2.10
+prometheus-client==0.23.1

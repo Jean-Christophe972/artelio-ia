@@ -1,0 +1,32 @@
+# Déploiement continu : après une CI réussie sur main, déploiement de l'API sur Railway.
+# Prérequis (une fois) : projet Railway avec un service "artelio-api", secret RAILWAY_TOKEN dans
+# GitHub, variable API_KEY_SHA256 définie dans Railway. Railway construit le Dockerfile du dépôt.
+name: CD
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+
+jobs:
+  deployer:
+    name: Déploiement Railway
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.event.workflow_run.head_sha }}" }
+      - name: Déployer
+        if: env.RAILWAY_TOKEN != ''
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          npm install -g @railway/cli@4
+          railway up --service artelio-api --ci
+      - name: Vérification après déploiement
+        if: vars.URL_PRODUCTION != ''
+        run: |
+          for i in $(seq 1 30); do curl -sf "${{ vars.URL_PRODUCTION }}/pret" && exit 0; sleep 10; done
+          echo "L'API ne répond pas après le déploiement" && exit 1
