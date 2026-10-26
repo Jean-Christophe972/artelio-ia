@@ -7,6 +7,9 @@ API, CI/CD, registre de modèles, surveillance de la dérive et réentraînement
 > Certification « Architecte en Intelligence Artificielle » — **Bloc 4 : construire, déployer et piloter des solutions
 > d'IA**. S'appuie sur la plateforme (bloc 2) et les pipelines (bloc 3). Données synthétiques.
 
+**Démo en ligne (Railway)** : https://artelio-ia-production.up.railway.app/docs — documentation interactive de l'API
+(clé d'API fournie sur demande ; `/sante` et `/pret` sont publics). Déployée automatiquement après une CI verte.
+
 | Document | Contenu |
 |---|---|
 | [Cahier des charges](docs/CAHIER_DES_CHARGES_IA.md) | Besoin, critères d'acceptation, accessibilité, exploitation, conformité |
